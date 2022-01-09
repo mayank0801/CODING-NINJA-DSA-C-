@@ -1,0 +1,20 @@
+Given a generic tree, count and return the number of leaf nodes present in the given tree.
+
+
+
+
+int getLeafNodeCount(TreeNode<int>* root) {
+    // Write your code here
+    int count=0;
+    if(root->children.empty())
+    {
+        count+=1;
+        return count;
+    }
+    for(int i=0;i<root->children.size();i++)
+    {
+     int leaf=getLeafNodeCount(root->children[i]);
+         count+=leaf;
+    }
+    return count;
+}
