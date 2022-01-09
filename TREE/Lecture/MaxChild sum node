@@ -1,0 +1,71 @@
+Given a generic tree, 
+find and return the node for which sum of its data and data of all its child nodes is maximum. 
+In the sum, data of the node and data of its immediate child nodes has to be taken.
+
+
+
+1st approach
+
+TreeNode<int>* maxSumNode(TreeNode<int>* root) {
+    // Write your code here
+    TreeNode<int>* maxchildsumNode=root;
+    int childsum=root->data;
+    for(int i=0;i<root->children.size();i++)
+    {
+        childsum+=root->children[i]->data;
+    }
+    for(int i=0;i<root->children.size();i++)
+    {
+        TreeNode<int>* smallans=maxSumNode(root->children[i]);
+         int smallanschildsum=smallans->data;
+        for(int i=0;i<smallans->children.size();i++)
+        {
+        smallanschildsum+=smallans->children[i]->data;
+        }
+        if(childsum<smallanschildsum)
+        maxchildsumNode=smallans;
+    }
+   
+    return maxchildsumNode;
+}
+
+
+
+
+
+
+2nd approach
+
+class Pair
+{
+    public:
+    int childsum;
+    TreeNode<int>*MaxchildsumNode;
+    
+};
+Pair maxSumNodehelper(TreeNode<int>* root)
+{
+    Pair finalans;
+    finalans.MaxchildsumNode=root;
+    finalans.childsum=root->data;
+    for(int i=0;i<root->children.size();i++)
+    {
+        finalans.childsum+=root->children[i]->data;
+    }
+    //recursive call
+    for(int i=0;i<root->children.size();i++)
+    {
+        Pair smallans=maxSumNodehelper(root->children[i]);
+        if(smallans.childsum>finalans.childsum)
+        {
+            finalans.MaxchildsumNode=smallans.MaxchildsumNode;
+        	finalans.childsum=smallans.childsum;
+        }
+    }
+    return finalans;
+}
+TreeNode<int>* maxSumNode(TreeNode<int>* root) {
+    // Write your code here
+    Pair ans=maxSumNodehelper(root);
+    return ans.MaxchildsumNode;
+}
