@@ -69,3 +69,5 @@ TreeNode<int>* maxSumNode(TreeNode<int>* root) {
     Pair ans=maxSumNodehelper(root);
     return ans.MaxchildsumNode;
 }
+
+NOTE-Always try to implemnet using dynamic allocation and using template in 2nd approach
