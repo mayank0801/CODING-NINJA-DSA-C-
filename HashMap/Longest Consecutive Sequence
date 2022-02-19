@@ -1,0 +1,91 @@
+You are given an array of unique integers that contain numbers in random order. You have to find the longest possible sequence of consecutive numbers using the numbers from given array.
+You need to return the output array which contains starting and ending element. If the length of the longest possible sequence is one, then the output array must contain only single element.
+Note:
+1. Best solution takes O(n) time.
+2. If two sequences are of equal length, then return the sequence starting with the number whose occurrence is earlier in the array.
+Sample Input 1 :
+13
+2 12 9 16 10 5 3 20 25 11 1 8 6 
+Sample Output 1 :
+8 12 
+
+
+
+
+
+#include<vector> 
+#include<unordered_map>
+vector<int> longestConsecutiveIncreasingSequence(int *arr, int n) {
+    // Your Code goes here
+  	
+    unordered_map <int , bool> visited;
+    unordered_map <int , int> index;
+    
+    if( n==0 || n==1)
+    {
+        vector<int> ans;
+        ans.push_back(n);
+        return ans;
+    }
+    for(int i=0; i<n; i++)                               
+    {                                                    
+        visited[arr[i]] = false;
+        index[arr[i]] = i;                                
+    }
+    
+    int start;                                
+    int size = 1;
+    
+    
+    for( int i=0;i<n ;i++)                    
+    { 
+       int newsize=1;
+       int newstart = arr[i];
+       int j=arr[i]+1;
+        
+        while(visited.count(j)>0 && visited[j]==false) 
+        {
+            newsize+=1;
+            visited[j] = true;
+            j++;
+        }
+        
+        j=arr[i]-1;
+     
+        while(visited.count(j)>0 && visited[j]==false) 
+        { 
+            newstart =j;
+            newsize+=1;
+            visited[j]=true;
+            j--;
+        }
+        
+       if(newsize==size)
+       {
+           if(index[newstart]<index[start])
+           {
+               start = newstart;
+           }
+       }
+        else if(newsize>size)
+        {
+            start = newstart;
+            size = newsize;
+        }
+        
+        visited[arr[i]] = true; // visited[arr[i]] = true;  
+    }
+    
+    if(size==1)
+    {
+        vector<int> ans;
+        ans.push_back(arr[0]);
+        return ans;
+    }
+    
+    vector<int> ans;
+    ans.push_back(start);
+    ans.push_back(start+size-1);
+    return ans;
+
+}
