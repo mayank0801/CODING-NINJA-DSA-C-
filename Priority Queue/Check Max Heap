@@ -1,0 +1,25 @@
+Given an array of integers, check whether it represents max-heap or not. Return true if the given array represents max-heap, else return false.
+
+
+
+
+#include<bits/stdc++.h>
+bool isMaxHeap(int arr[], int n) {
+    // Write your code here
+    int i=0;
+    int lci=2*i+1;
+    while(i<n&&lci<n)
+    {
+        int vlci=arr[2*i+1];
+        int vrci=INT_MIN;
+    	int rci=2*i+2;
+        if(rci<n)
+            vrci=arr[2*i+2];
+        if(arr[i]<vlci||arr[i]<vrci)
+            return false;
+            
+        ++i;
+        lci=2*i+1;
+    }
+    return true;
+}
