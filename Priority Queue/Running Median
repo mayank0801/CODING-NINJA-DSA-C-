@@ -1,0 +1,56 @@
+You are given a stream of 'N' integers. For every 'i-th' integer added to the running list of integers, print the resulting median.
+Print only the integer part of the median.
+
+#include<bits/stdc++.h>
+void findMedian(int *arr, int n)
+{
+    // Write your code here
+    priority_queue<int>maxHeap;
+    priority_queue<int,vector<int>,greater<int>>minHeap;
+    
+    for(int i=0;i<n;i++)
+    {
+        if(maxHeap.empty()&&minHeap.empty())
+        {
+            maxHeap.push(arr[i]);
+            cout<<arr[i]<<" ";
+            continue;
+        }
+        
+        //
+        if(maxHeap.top()>arr[i]){
+            maxHeap.push(arr[i]);
+        }
+        else
+            minHeap.push(arr[i]);
+		
+    //Maintaing diffrence of at max 1
+        if(abs(maxHeap.size()-minHeap.size())>1)
+        {
+            if(maxHeap.size()>minHeap.size()){
+                int temp=maxHeap.top();
+                maxHeap.pop();
+                minHeap.push(temp);
+            }
+            else{
+                int temp=minHeap.top();
+                minHeap.pop();
+                maxHeap.push(temp);
+            }
+        }
+        
+        
+        //printing median
+        if(maxHeap.size()==minHeap.size())
+        {
+            int ans;
+            ans=(maxHeap.top()+minHeap.top())/2;
+            cout<<ans<<" ";
+        }
+        else
+            if(maxHeap.size()>minHeap.size())
+                cout<<maxHeap.top()<<" ";
+        	else
+                cout<<minHeap.top()<<" ";
+    }
+}
