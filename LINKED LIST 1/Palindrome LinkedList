@@ -1,0 +1,78 @@
+You have been given a head to a singly linked list of integers. Write a function check to whether the list given is a 'Palindrome' or not.
+
+
+
+/****************************************************************
+ 
+    Following is the class structure of the Node class:
+
+        class Node
+        {
+        public:
+	        int data;
+	        Node *next;
+	        Node(int data)
+	        {
+		        this->data = data;
+		        this->next = NULL;
+	        }
+        };
+
+*****************************************************************/
+Node *reversell(Node*head)
+{
+    if(head==NULL||head->next==NULL)
+        return head;
+    
+    Node *rechead=reversell(head->next);
+    
+    Node *temp=rechead;
+    while(temp->next!=NULL)
+    {
+        temp=temp->next;
+    }
+    temp->next=head;
+    head->next=NULL;
+    return rechead;
+}
+
+
+Node *midpointll(Node *head)
+{
+    if(head==NULL||head->next==NULL)
+        return head;
+    Node *slow=head;
+    Node *fast=head->next;
+    while(fast!=NULL&&fast->next!=NULL)
+    {
+        slow=slow->next;
+        fast=fast->next->next;
+    }
+    return slow;
+}
+
+bool isPalindrome(Node *head)
+{
+    //Write your code here
+    if(head==NULL||head->next==NULL)
+        return true;
+    
+    Node *midll=midpointll(head);
+    
+    Node *secondparthead=midll->next;
+    midll->next=NULL;
+    
+    Node *revhead=reversell(secondparthead);
+    
+    
+    while(head!=NULL&&revhead!=NULL)
+    {
+        if(head->data!=revhead->data)
+        {
+            return false;
+        }
+        revhead=revhead->next;
+        head=head->next;
+    }
+    return true; 
+}
