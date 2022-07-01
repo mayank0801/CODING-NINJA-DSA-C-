@@ -1,0 +1,52 @@
+You have been given a singly linked list of integers along with an integer 'N'. Write a function to append the last 'N' nodes towards the front of the singly linked list and returns the new head to the list.
+
+
+
+/****************************************************************
+ 
+    Following is the class structure of the Node class:
+
+        class Node
+        {
+        public:
+	        int data;
+	        Node *next;
+	        Node(int data)
+	        {
+		        // this->dat = data;
+		        this->next = NULL;
+	        }
+        };
+
+*****************************************************************/
+int lengthll(Node*head)
+{
+    if(head==NULL)
+        return 0;
+    return 1+lengthll(head->next);
+}
+Node *appendLastNToFirst(Node *head, int n)
+{
+    //Write your code here
+    if(head==NULL||n==0)
+        return head;
+    int length=lengthll(head);
+	Node*temp=head;
+    int i=0;
+    while(i<length-n-1)
+    {
+        temp=temp->next;
+    	i++;
+    }
+    Node*newhead=temp->next;
+    temp->next=NULL;
+    temp=newhead;
+    while(temp->next!=NULL)
+    {
+        temp=temp->next;
+    }
+    temp->next=head;
+    head=newhead;
+    
+    return head;
+}
